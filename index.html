@@ -572,6 +572,27 @@
     margin: 0 0 18px;
     max-width: 48ch;
   }
+  .sobre-historia {
+    margin: 24px 0 0;
+    padding: 18px 20px;
+    background: rgba(116,172,223,0.1);
+    border-left: 3px solid var(--sky);
+    border-radius: 0 8px 8px 0;
+    max-width: 48ch;
+  }
+  .sobre-historia-q {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sky);
+    margin: 0 0 8px !important;
+  }
+  .sobre-historia p {
+    font-size: 15px;
+    color: var(--night);
+    margin: 0 !important;
+    opacity: 0.85;
+  }
   .sobre-meta {
     margin-top: 36px;
     display: flex;
@@ -652,6 +673,26 @@
     color: var(--night);
     font-weight: 500;
     display: block;
+  }
+  .testi-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 32px;
+    padding: 0 var(--pad-x);
+  }
+  .testi-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(14,27,44,0.18);
+    transition: background 250ms var(--ease), transform 250ms var(--ease);
+    padding: 0;
+    flex-shrink: 0;
+  }
+  .testi-dot.is-active {
+    background: var(--gold);
+    transform: scale(1.3);
   }
 
   /* ───────────────────────────────────────────────
@@ -856,7 +897,7 @@
 <!-- ─────────── HERO ─────────── -->
 <section id="hero">
   <video id="hero-video"
-         autoplay muted playsinline preload="auto"
+         autoplay muted playsinline loop preload="auto"
          poster="public/hero-poster.jpg"
          aria-hidden="true">
     <source src="public/bandera-web.webm" type="video/webm">
@@ -949,6 +990,10 @@
       <h2>Hecho con tiempo, en Chaco</h2>
       <p>El Precioso nació en Chaco, en una mesa de comedor, cortando cintas para los actos del jardín.</p>
       <p>Hoy somos un emprendimiento familiar que sigue haciendo lo mismo, con más manos y más cuidado.</p>
+      <div class="sobre-historia">
+        <p class="sobre-historia-q">¿Por qué se llama "El Precioso"?</p>
+        <p>La respuesta es simple y llena de cariño… mi <strong>hijo perruno</strong>, mi fiel amigo, fue y será el regalo más precioso en mi vida. 🐾</p>
+      </div>
       <div class="sobre-meta">
         <div><span class="num">2019</span><span class="lbl">Primera escarapela</span></div>
         <div><span class="num">+5.000</span><span class="lbl">Piezas entregadas</span></div>
@@ -979,6 +1024,41 @@
       <div class="testi-divider"></div>
       <div class="testi-author"><strong>Carolina P.</strong>Charata</div>
     </article>
+    <article class="testi-card">
+      <p class="testi-quote">"Pedí 20 para el colegio donde trabajo. Todos los chicos llegaron al acto con la suya puesta."</p>
+      <div class="testi-divider"></div>
+      <div class="testi-author"><strong>Roberto G.</strong>Corrientes</div>
+    </article>
+    <article class="testi-card">
+      <p class="testi-quote">"La presentación es hermosa. Parece un regalo de verdad. La recomendé a todo el grupo de mamás."</p>
+      <div class="testi-divider"></div>
+      <div class="testi-author"><strong>Valeria T.</strong>Formosa</div>
+    </article>
+    <article class="testi-card">
+      <p class="testi-quote">"Pedí desde CABA y llegaron en tiempo y forma. Calidad increíble para el precio."</p>
+      <div class="testi-divider"></div>
+      <div class="testi-author"><strong>Diego F.</strong>Buenos Aires</div>
+    </article>
+    <article class="testi-card">
+      <p class="testi-quote">"Siempre compro acá para el 25. Ya van varios años seguidos y nunca defraudan."</p>
+      <div class="testi-divider"></div>
+      <div class="testi-author"><strong>Ana L.</strong>Barranqueras</div>
+    </article>
+    <article class="testi-card">
+      <p class="testi-quote">"Me mandó una foto mi mamá cuando la recibió. La cara que puso lo dijo todo."</p>
+      <div class="testi-divider"></div>
+      <div class="testi-author"><strong>Sofía M.</strong>Villa Ángela</div>
+    </article>
+  </div>
+  <div class="testi-nav" id="testi-nav">
+    <button class="testi-dot is-active" aria-label="Reseña 1"></button>
+    <button class="testi-dot" aria-label="Reseña 2"></button>
+    <button class="testi-dot" aria-label="Reseña 3"></button>
+    <button class="testi-dot" aria-label="Reseña 4"></button>
+    <button class="testi-dot" aria-label="Reseña 5"></button>
+    <button class="testi-dot" aria-label="Reseña 6"></button>
+    <button class="testi-dot" aria-label="Reseña 7"></button>
+    <button class="testi-dot" aria-label="Reseña 8"></button>
   </div>
 </section>
 
@@ -987,7 +1067,7 @@
   <div class="cta-inner">
     <h2>¿Te gustó algún modelo?</h2>
     <p class="cta-sub">Escribinos por WhatsApp y coordinamos. Hacemos envíos a todo el país.</p>
-    <a class="cta-btn" href="https://wa.me/5493624000000" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+    <a class="cta-btn" href="https://wa.me/5493625190286?text=Hola%21%20Vi%20el%20cat%C3%A1logo%20de%20El%20Precioso%20y%20me%20gustar%C3%ADa%20hacer%20un%20pedido%20%F0%9F%87%A6%F0%9F%87%B7" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6 0-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.1-1.3c1.5.8 3.2 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.2-.4-4.5-1.2l-.3-.2-3 .8.8-3-.2-.3C3.9 14.8 3.5 13.4 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.5-8.5 8.5z"/>
       </svg>
@@ -1049,62 +1129,25 @@
   onScroll();
 
   /* ───────────────────────────────────────────────
-     HERO video — ping-pong + viewport pause
+     HERO video — viewport pause
      ─────────────────────────────────────────────── */
   const heroVideo = document.getElementById('hero-video');
   const hero = document.getElementById('hero');
-  let isReversing = false;
-  let reverseRafId = null;
-
-  function cancelReverse() {
-    if (reverseRafId !== null) {
-      cancelAnimationFrame(reverseRafId);
-      reverseRafId = null;
-    }
-    isReversing = false;
-  }
-
-  function playReverse() {
-    isReversing = true;
-    let prevTimestamp = null;
-
-    function step(timestamp) {
-      if (!isReversing) return;
-      if (prevTimestamp !== null) {
-        const dt = (timestamp - prevTimestamp) / 1000;
-        const next = heroVideo.currentTime - dt;
-        if (next <= 0) {
-          cancelReverse();
-          heroVideo.currentTime = 0;
-          heroVideo.play().catch(() => {});
-          return;
-        }
-        heroVideo.currentTime = next;
-      }
-      prevTimestamp = timestamp;
-      reverseRafId = requestAnimationFrame(step);
-    }
-
-    reverseRafId = requestAnimationFrame(step);
-  }
-  heroVideo.addEventListener('ended', playReverse);
 
   const heroObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        if (heroVideo.paused && !isReversing) heroVideo.play().catch(() => {});
+        heroVideo.play().catch(() => {});
       } else {
         heroVideo.pause();
-        cancelReverse();
-        heroVideo.currentTime = 0;
       }
     });
   }, { threshold: 0.1 });
   heroObserver.observe(hero);
 
   if (reduceMotion) {
-    heroVideo.removeEventListener('ended', playReverse);
-    heroVideo.loop = true;
+    heroVideo.pause();
+    heroVideo.currentTime = 0;
   }
 
   /* ───────────────────────────────────────────────
@@ -1224,6 +1267,54 @@
       openLightbox(CATALOG, parseInt(item.dataset.idx, 10));
     });
   });
+
+  /* ───────────────────────────────────────────────
+     TESTIMONIALS auto-carousel
+     ─────────────────────────────────────────────── */
+  const testiTrack = document.getElementById('testi-track');
+  const testiCards = Array.from(testiTrack.querySelectorAll('.testi-card'));
+  const testiDots = Array.from(document.querySelectorAll('.testi-dot'));
+  let testiIdx = 0;
+  let testiPaused = false;
+
+  function cardScrollPos(card) {
+    return card.getBoundingClientRect().left - testiTrack.getBoundingClientRect().left + testiTrack.scrollLeft;
+  }
+  function testiGoTo(idx, smooth = true) {
+    testiIdx = idx;
+    const padLeft = parseFloat(getComputedStyle(testiTrack).paddingLeft) || 0;
+    testiTrack.scrollTo({ left: Math.max(0, cardScrollPos(testiCards[idx]) - padLeft), behavior: smooth ? 'smooth' : 'instant' });
+    testiDots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+  }
+  function testiNext() {
+    testiIdx >= testiCards.length - 1 ? testiGoTo(0, false) : testiGoTo(testiIdx + 1);
+  }
+
+  testiTrack.addEventListener('scroll', () => {
+    let closest = 0, minDist = Infinity;
+    testiCards.forEach((card, i) => {
+      const dist = Math.abs(card.getBoundingClientRect().left - testiTrack.getBoundingClientRect().left);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    if (closest !== testiIdx) {
+      testiIdx = closest;
+      testiDots.forEach((d, i) => d.classList.toggle('is-active', i === closest));
+    }
+  }, { passive: true });
+
+  testiTrack.addEventListener('mouseenter', () => { testiPaused = true; });
+  testiTrack.addEventListener('mouseleave', () => { testiPaused = false; });
+  testiTrack.addEventListener('touchstart', () => { testiPaused = true; }, { passive: true });
+  testiTrack.addEventListener('touchend', () => { setTimeout(() => { testiPaused = false; }, 2500); }, { passive: true });
+  testiDots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      testiPaused = true;
+      testiGoTo(i);
+      setTimeout(() => { testiPaused = false; }, 3000);
+    });
+  });
+
+  if (!reduceMotion) setInterval(testiNext, 4500);
 
   /* ───────────────────────────────────────────────
      REVEAL on scroll
