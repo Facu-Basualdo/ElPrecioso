@@ -425,6 +425,11 @@
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
   }
+  @media (max-width: 640px) {
+    .marquee-item { width: 155px; }
+    .marquee-track { gap: 12px; }
+    .marquee-wrapper { padding: 24px 0; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }
   }
@@ -490,9 +495,24 @@
     .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
   }
   @media (max-width: 640px) {
-    .catalog-grid { grid-template-columns: 1fr; gap: 20px; }
+    .catalog-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 0 12px;
+    }
+    .catalog-card .card-meta {
+      font-size: 12px;
+      left: 10px;
+      bottom: 10px;
+    }
   }
-  @media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  @media (pointer: coarse) {
+    .catalog-card { transition: none; }
+    .catalog-card:hover { transform: none !important; }
+    .catalog-card::before { opacity: 1; }
+    .catalog-card .card-meta { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
     .catalog-card { transition: none; }
     .catalog-card:hover { transform: none !important; }
   }
@@ -1033,41 +1053,50 @@
      ─────────────────────────────────────────────── */
   const heroVideo = document.getElementById('hero-video');
   const hero = document.getElementById('hero');
-  let playingForward = true;
-  let reverseInterval = null;
+  let isReversing = false;
+  let reverseRafId = null;
+
+  function cancelReverse() {
+    if (reverseRafId !== null) {
+      cancelAnimationFrame(reverseRafId);
+      reverseRafId = null;
+    }
+    isReversing = false;
+  }
 
   function playReverse() {
-    playingForward = false;
-    const fps = 30;
-    const step = 1 / fps;
-    let currentTime = heroVideo.duration;
-    reverseInterval = setInterval(() => {
-      currentTime -= step;
-      if (currentTime <= 0) {
-        clearInterval(reverseInterval);
-        reverseInterval = null;
-        heroVideo.currentTime = 0;
-        playingForward = true;
-        heroVideo.play().catch(() => {});
-      } else {
-        heroVideo.currentTime = currentTime;
+    isReversing = true;
+    let prevTimestamp = null;
+
+    function step(timestamp) {
+      if (!isReversing) return;
+      if (prevTimestamp !== null) {
+        const dt = (timestamp - prevTimestamp) / 1000;
+        const next = heroVideo.currentTime - dt;
+        if (next <= 0) {
+          cancelReverse();
+          heroVideo.currentTime = 0;
+          heroVideo.play().catch(() => {});
+          return;
+        }
+        heroVideo.currentTime = next;
       }
-    }, 1000 / fps);
+      prevTimestamp = timestamp;
+      reverseRafId = requestAnimationFrame(step);
+    }
+
+    reverseRafId = requestAnimationFrame(step);
   }
   heroVideo.addEventListener('ended', playReverse);
 
   const heroObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        if (heroVideo.paused && !reverseInterval) heroVideo.play().catch(() => {});
+        if (heroVideo.paused && !isReversing) heroVideo.play().catch(() => {});
       } else {
         heroVideo.pause();
-        if (reverseInterval) {
-          clearInterval(reverseInterval);
-          reverseInterval = null;
-          heroVideo.currentTime = 0;
-          playingForward = true;
-        }
+        cancelReverse();
+        heroVideo.currentTime = 0;
       }
     });
   }, { threshold: 0.1 });
