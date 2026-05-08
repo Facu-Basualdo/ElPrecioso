@@ -748,6 +748,29 @@ h3 {
   }
 }
 
+.catalog-load-more {
+  display: block;
+  margin: 48px auto 0;
+  padding: 14px 40px;
+  border: 1.5px solid rgba(14, 27, 44, 0.28);
+  border-radius: 2px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--night);
+  background: none;
+  cursor: pointer;
+  transition: border-color 250ms var(--ease), background 250ms var(--ease), color 250ms var(--ease);
+}
+
+.catalog-load-more:hover {
+  border-color: var(--night);
+  background: var(--night);
+  color: var(--ivory);
+}
+
 /* ───────────────────────────────────────────────
    SOBRE NOSOTROS
    ─────────────────────────────────────────────── */
@@ -773,10 +796,22 @@ h3 {
   overflow: hidden;
   background:
     linear-gradient(rgba(247, 245, 240, 0.06), rgba(247, 245, 240, 0.06)),
-    url("public/catalogo/sobrenosotros.png") center/cover;
+    url("public/imagenesAux/sobrenosotros.png") center/cover;
   position: relative;
 }
 
+.sobre-image::after {
+  content: "Mesa de trabajo";
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  color: var(--ivory);
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(14, 27, 44, 0.5);
+}
 
 .sobre-text .eyebrow {
   display: inline-block;

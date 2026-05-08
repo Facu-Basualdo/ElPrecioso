@@ -1,14 +1,24 @@
 /* ───────────────────────────────────────────────
    DATA
    ─────────────────────────────────────────────── */
-const CATALOG = Array.from({length: 12}, (_, i) => {
-  const n = String(i + 1).padStart(2, '0');
-  return {
-    src: `public/catalogo/escarapela-${n}.jpg`,
-    alt: `Escarapela artesanal modelo ${n} de El Precioso`,
-    name: `Modelo Nº${n}`
-  };
-});
+const CATALOG = [
+  ...Array.from({length: 44}, (_, i) => ({
+    src: `public/catalogo/${i + 1}.jpeg`,
+    alt: `Escarapela artesanal modelo ${i + 1} de El Precioso`,
+    name: `Modelo Nº${i + 1}`
+  })),
+  ...Array.from({length: 12}, (_, i) => ({
+    src: `public/catalogo/${i + 45}.jpg`,
+    alt: `Escarapela artesanal modelo ${i + 45} de El Precioso`,
+    name: `Modelo Nº${i + 45}`
+  }))
+];
+
+const INGRESOS = Array.from({length: 6}, (_, i) => ({
+  src: `public/ingresos/${i + 57}.jpeg`,
+  alt: `Nuevo ingreso modelo ${i + 57} de El Precioso`,
+  name: `Nuevo Nº${i + 57}`
+}));
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -74,8 +84,7 @@ if (reduceMotion) {
    MARQUEE (Destacados) — populate + duplicate
    ─────────────────────────────────────────────── */
 const marqueeTrack = document.getElementById('marquee-track');
-const featured = CATALOG.slice(0, 8);
-marqueeTrack.innerHTML = featured.map((it, i) => `
+marqueeTrack.innerHTML = INGRESOS.map((it, i) => `
   <button class="marquee-item" data-idx="${i}" aria-label="Ver ${it.name}">
     <img src="${it.src}" alt="${it.alt}" loading="lazy">
   </button>
@@ -84,39 +93,57 @@ marqueeTrack.innerHTML = featured.map((it, i) => `
 marqueeTrack.innerHTML += marqueeTrack.innerHTML;
 
 /* ───────────────────────────────────────────────
-   CATÁLOGO — render cards + tilt
+   CATÁLOGO — paginado con "Ver más"
    ─────────────────────────────────────────────── */
 const catalogGrid = document.getElementById('catalog-grid');
-catalogGrid.innerHTML = CATALOG.map((it, i) => `
-  <button class="catalog-card reveal" data-idx="${i}" aria-label="Ver ${it.name}">
-    <img src="${it.src}" alt="${it.alt}" loading="lazy">
-    <div class="card-meta">${it.name}</div>
-  </button>
-`).join('');
+const PAGE_SIZE = 12;
+let catalogOffset = 0;
 
-// Tilt (desktop only)
 const isCoarse = window.matchMedia('(pointer: coarse)').matches;
-if (!isCoarse && !reduceMotion) {
-  document.querySelectorAll('.catalog-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const cx = rect.width / 2;
-      const cy = rect.height / 2;
-      const rotateX = ((y - cy) / cy) * -6;
-      const rotateY = ((x - cx) / cx) * 6;
-      card.style.transform =
-        `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-      card.style.boxShadow =
-        `${-rotateY * 2}px ${rotateX * 2}px 30px rgba(14, 27, 44, 0.12)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-      card.style.boxShadow = '0 4px 12px rgba(14, 27, 44, 0.06)';
-    });
+
+function attachTilt(card) {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotateX = ((y - cy) / cy) * -6;
+    const rotateY = ((x - cx) / cx) * 6;
+    card.style.transform =
+      `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+    card.style.boxShadow =
+      `${-rotateY * 2}px ${rotateX * 2}px 30px rgba(14, 27, 44, 0.12)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+    card.style.boxShadow = '0 4px 12px rgba(14, 27, 44, 0.06)';
   });
 }
+
+const loadMoreBtn = document.createElement('button');
+loadMoreBtn.className = 'catalog-load-more';
+loadMoreBtn.textContent = 'Ver más';
+catalogGrid.insertAdjacentElement('afterend', loadMoreBtn);
+
+function appendCatalogPage() {
+  const end = Math.min(catalogOffset + PAGE_SIZE, CATALOG.length);
+  for (let i = catalogOffset; i < end; i++) {
+    const it = CATALOG[i];
+    const card = document.createElement('button');
+    card.className = 'catalog-card';
+    card.dataset.idx = i;
+    card.setAttribute('aria-label', `Ver ${it.name}`);
+    card.innerHTML = `<img src="${it.src}" alt="${it.alt}" loading="lazy"><div class="card-meta">${it.name}</div>`;
+    catalogGrid.appendChild(card);
+    if (!isCoarse && !reduceMotion) attachTilt(card);
+  }
+  catalogOffset = end;
+  if (catalogOffset >= CATALOG.length) loadMoreBtn.style.display = 'none';
+}
+
+loadMoreBtn.addEventListener('click', appendCatalogPage);
+appendCatalogPage();
 
 /* ───────────────────────────────────────────────
    LIGHTBOX
@@ -176,15 +203,14 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') prevImage();
 });
 
-// Wire up triggers — both marquee + catalog open the same lightbox over CATALOG
-document.querySelectorAll('.catalog-card').forEach(card => {
-  card.addEventListener('click', () => {
-    openLightbox(CATALOG, parseInt(card.dataset.idx, 10));
-  });
+// Catálogo — event delegation (cubre tarjetas cargadas en cualquier página)
+catalogGrid.addEventListener('click', (e) => {
+  const card = e.target.closest('.catalog-card');
+  if (card) openLightbox(CATALOG, parseInt(card.dataset.idx, 10));
 });
 marqueeTrack.querySelectorAll('.marquee-item').forEach(item => {
   item.addEventListener('click', () => {
-    openLightbox(CATALOG, parseInt(item.dataset.idx, 10));
+    openLightbox(INGRESOS, parseInt(item.dataset.idx, 10) % INGRESOS.length);
   });
 });
 
