@@ -1,23 +1,37 @@
 /* ───────────────────────────────────────────────
    DATA
    ─────────────────────────────────────────────── */
-const CATALOG = [
-  ...Array.from({length: 44}, (_, i) => ({
-    src: `public/catalogo/${i + 1}.jpeg`,
-    alt: `Escarapela artesanal modelo ${i + 1} de El Precioso`,
-    name: `Modelo Nº${i + 1}`
-  })),
-  ...Array.from({length: 12}, (_, i) => ({
-    src: `public/catalogo/${i + 45}.jpg`,
-    alt: `Escarapela artesanal modelo ${i + 45} de El Precioso`,
-    name: `Modelo Nº${i + 45}`
-  }))
+/* Para agregar o quitar imágenes, edita estas listas de nombres de archivo.
+   El orden de la lista define el orden en que aparecen.
+   - CATALOG_FILES  → archivos dentro de public/catalogo/
+   - INGRESOS_FILES → archivos dentro de public/ingresos/  */
+const CATALOG_FILES = [
+  '1.jpeg', '2.jpeg', '3.jpeg', '4.jpeg', '5.jpeg', '6.jpeg', '7.jpeg', '8.jpeg', '9.jpeg', '10.jpeg',
+  '11.jpeg', '12.jpeg', '13.jpeg', '14.jpeg', '15.jpeg', '16.jpeg', '17.jpeg', '18.jpeg', '19.jpeg', '20.jpeg',
+  '21.jpeg', '22.jpeg', '23.jpeg', '24.jpeg', '25.jpeg', '26.jpeg', '27.jpeg', '28.jpeg', '29.jpeg', '30.jpeg',
+  '31.jpeg', '32.jpeg', '33.jpeg', '34.jpeg', '35.jpeg', '36.jpeg', '37.jpeg', '38.jpeg', '39.jpeg', '40.jpeg',
+  '41.jpeg', '42.jpeg', '43.jpeg', '44.jpeg',
+  '45.jpg', '46.jpg', '47.jpg', '48.jpg', '49.jpg', '50.jpg', '51.jpg', '52.jpg', '53.jpg', '54.jpg', '55.jpg', '56.jpg',
+  '57.jpeg', '58.jpeg', '59.jpeg', '60.jpeg', '61.jpeg', '62.jpeg',
+  '63.jpg', '64.jpg', '65.jpg', '66.jpg', '67.jpg', '68.jpg', '69.jpg', '70.jpg', '71.jpg', '72.jpg', '73.jpg', '74.jpg', '75.jpg', '76.jpg', '77.jpg', '78.jpg'
 ];
 
-const INGRESOS = Array.from({length: 6}, (_, i) => ({
-  src: `public/ingresos/${i + 57}.jpeg`,
-  alt: `Nuevo ingreso modelo ${i + 57} de El Precioso`,
-  name: `Nuevo Nº${i + 57}`
+const INGRESOS_FILES = [
+  '63.jpg', '64.jpg', '65.jpg', '66.jpg', '67.jpg', '68.jpg', '69.jpg', '70.jpg', '71.jpg', '72.jpg', '73.jpg', '74.jpg', '75.jpg', '76.jpg', '77.jpg', '78.jpg'
+];
+
+const fileNum = (f) => f.replace(/\.[^.]+$/, '');
+
+const CATALOG = CATALOG_FILES.map((f) => ({
+  src: `public/catalogo/${f}`,
+  alt: `Escarapela artesanal modelo ${fileNum(f)} de El Precioso`,
+  name: `Modelo Nº${fileNum(f)}`
+}));
+
+const INGRESOS = INGRESOS_FILES.map((f) => ({
+  src: `public/ingresos/${f}`,
+  alt: `Nuevo ingreso modelo ${fileNum(f)} de El Precioso`,
+  name: `Nuevo Nº${fileNum(f)}`
 }));
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
